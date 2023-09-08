@@ -27,8 +27,8 @@ pygame.display.set_caption("Pong Pong")
 
 pontuacaoA = 0  # Jogador da esquerda
 pontuacaoB = 0  # Jogador da direita
-
 class Bola:
+
     def __init__(self, x, y, cor, velInicial):
         self.x = x
         self.y = y
@@ -52,7 +52,7 @@ class Bola:
     def colisao(self, jogadorA, jogadorB, maxVel, amplitudeAngulo):
         if self.x <= jogadorA.x + 25 and self.y >= jogadorA.y and self.y <= jogadorA.y + 100:
             if jogadorA.tangivel == True:
-                pygame.mixer.music.load(random.choice(['intermediário/PongPong/audios/colisao_jogador1.mp3', 'intermediário/PongPong/audios/colisao_jogador2.mp3', 'intermediário/PongPong/audios/colisao_jogador3.mp3', 'intermediário/PongPong/audios/colisao_jogador4.mp3', 'intermediário/PongPong/audios/colisao_jogador5.mp3', 'intermediário/PongPong/audios/colisao_jogador6.mp3'])) # Escolhe um audio aleatório para tocar
+                pygame.mixer.music.load(random.choice(['PT_BR/audios/colisao_jogador1.mp3', 'PT_BR/audios/colisao_jogador2.mp3', 'PT_BR/audios/colisao_jogador3.mp3', 'PT_BR/audios/colisao_jogador4.mp3', 'PT_BR/audios/colisao_jogador5.mp3', 'PT_BR/audios/colisao_jogador6.mp3'])) # Escolhe um audio aleatório para tocar
                 pygame.mixer.music.play()
                 
                 # Se a bola bater na parte de baixo ou de cima do jogador verifica se ela está 70% a direita (Valor X segue em frente e o Y inverte) ou 30% a esquerda (Valor X inverte e o Y inverte).
@@ -79,7 +79,7 @@ class Bola:
                 
         if self.x >= jogadorB.x - 10 and self.y >= jogadorB.y and self.y <= jogadorB.y + 100:
             if jogadorB.tangivel == True:
-                pygame.mixer.music.load(random.choice(['intermediário/PongPong/audios/colisao_jogador1.mp3', 'intermediário/PongPong/audios/colisao_jogador2.mp3', 'intermediário/PongPong/audios/colisao_jogador3.mp3', 'intermediário/PongPong/audios/colisao_jogador4.mp3', 'intermediário/PongPong/audios/colisao_jogador5.mp3', 'intermediário/PongPong/audios/colisao_jogador6.mp3'])) # Escolhe um audio aleatório para tocar
+                pygame.mixer.music.load(random.choice(['PT_BR/audios/colisao_jogador1.mp3', 'PT_BR/audios/colisao_jogador2.mp3', 'PT_BR/audios/colisao_jogador3.mp3', 'PT_BR/audios/colisao_jogador4.mp3', 'PT_BR/audios/colisao_jogador5.mp3', 'PT_BR/audios/colisao_jogador6.mp3'])) # Escolhe um audio aleatório para tocar
                 pygame.mixer.music.play()
                 
                 # Se a bola bater na parte de baixo ou de cima do jogador verifica se ela está 30% a direita (Valor X segue em frente e o Y inverte) ou 70% a esquerda (Valor X inverte e o Y inverte).
@@ -110,7 +110,7 @@ class Bola:
         self.y = 300
         self.movX = random.choice([-self.movX_padrao, self.movX_padrao])
         self.movY = 0
-        pygame.mixer.music.load('intermediário/PongPong/audios/ponto.mp3')
+        pygame.mixer.music.load('PT_BR/audios/ponto.mp3')
         pygame.mixer.music.set_volume(0.1)
         pygame.mixer.music.play()
         jogador2.tangivel = True
@@ -204,6 +204,21 @@ def verificar_vitoria():
         return 2
     return 0
 
+def reiniciar_tudo():
+    global pontuacaoA
+    global pontuacaoB
+    pontuacaoA = 0
+    pontuacaoB = 0
+    jogador1.x = 50
+    jogador1.y = 250
+    jogador2.x = 730
+    jogador2.y = 250
+    bola.resetar()
+    jogador1.mov = 0
+    jogador2.mov = 0
+    jogador1.tangivel = True
+    jogador2.tangivel = True
+
 relogio = pygame.time.Clock()
 jogador1 = Jogador(50, 250, cores['vermelho'])
 jogador2 = Jogador(730, 250, cores['azul'])
@@ -258,6 +273,7 @@ def jogo(qtd_jogadores, velocidade_bot, max_vel, angulo, velocidade_inicial, vel
                                 if evento.button == 1 and 350 < evento.pos[0] < 450 and 375 < evento.pos[1] < 425:
                                     pausado = False
                                     pygame.time.delay(200)
+                                    reiniciar_tudo()
                                     tela_inicial()
                                     break
             if qtd_jogadores == 1:
