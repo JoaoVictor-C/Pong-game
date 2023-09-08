@@ -9,7 +9,6 @@ pygame.init()
 
 # Cria a tela
 tela = pygame.display.set_mode((800, 600))
-
 # Definição de cores
 cores = {
     'vermelho': (255, 0, 0),
