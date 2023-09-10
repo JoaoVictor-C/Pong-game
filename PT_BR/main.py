@@ -13,8 +13,8 @@ largura_tela = 800
 altura_tela = 600
 
 # Resolução redimensional
-largura_tela = 400
-altura_tela = 300
+#largura_tela = 400
+#altura_tela = 300
 
 
 
