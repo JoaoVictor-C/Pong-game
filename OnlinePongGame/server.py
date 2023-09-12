@@ -1,19 +1,21 @@
+import pickle
 import socket
 from _thread import *
-import pickle
+
 from game import Game
 
 server = "192.168.1.5"
-port = 5555
+port = 5556
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 try:
     s.bind((server, port))
 except socket.error as e:
-    str(e)
+    print(f"Erro ao ligar o socket: {e}")
 
-s.listen(2)
+
+s.listen()
 print("Aguardando uma conexao, server iniciado")
 
 connected = set()
@@ -28,7 +30,7 @@ def threaded_client(conn, p, gameId):
     reply = ""
     while True:
         try:
-            data = conn.recv(4096).decode()
+            data = conn.recv(8192).decode()
 
             if gameId in games:
                 game = games[gameId]
@@ -57,7 +59,6 @@ def threaded_client(conn, p, gameId):
     conn.close()
 
 
-
 while True:
     conn, addr = s.accept()
     print("Conectado a:", addr)
@@ -71,6 +72,5 @@ while True:
     else:
         games[gameId].ready = True
         p = 1
-
 
     start_new_thread(threaded_client, (conn, p, gameId))

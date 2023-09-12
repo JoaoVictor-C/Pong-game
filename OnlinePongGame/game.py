@@ -16,8 +16,8 @@ class Game:
 
         return self.moves[p]
 
-    def player(self, player, move):
-        self.move[player] = move
+    def play(self, player, move):
+        self.moves[player] = move
         if player == 0:
             self.p1Went = True
         else:
@@ -31,26 +31,30 @@ class Game:
 
     def winner(self):
 
-        p1 = self.moves[0].upper()[0]
-        p2 = self.moves[1].upper()[0]
-        winner = -1
-        if p1 == "Rock" and p2 == "Scissors":
+        p1 = self.moves[0].lower()
+        p2 = self.moves[1].lower()
+
+        winner = -2
+
+        if p1 == "pedra" and p2 == "tesoura":
             winner = 0
-        elif p1 == "Paper" and p2 == "Rock":
+        elif p1 == "papel" and p2 == "pedra":
             winner = 0
-        elif p1 == "Scissors" and p2 == "Paper":
+        elif p1 == "tesoura" and p2 == "papel":
             winner = 0
+        elif p1 == "pedra" and p2 == "papel":
+            winner = 1
+        elif p1 == "papel" and p2 == "tesoura":
+            winner = 1
+        elif p1 == "tesoura" and p2 == "pedra":
+            winner = 1
         elif p1 == p2:
             winner = -1
 
-        if p2 == "Rock" and p1 == "Scissors":
-            winner = 1
-        elif p2 == "Paper" and p1 == "Rock":
-            winner = 1
-        elif p2 == "Scissors" and p1 == "Paper":
-            winner = 1
-        elif p1 == p2:
-            winner = -1
+        if winner == 0:
+            self.wins[0] += 1
+        elif winner == 1:
+            self.wins[1] += 1
 
         return winner
 

@@ -1,7 +1,9 @@
 import pygame
+
 from network import Network
-from player import Player
-from game import Game
+
+pygame.font.init()
+
 width = 700
 height = 700
 win = pygame.display.set_mode((width, height))
@@ -19,7 +21,7 @@ class Button:
 
     def draw(self, win):
         pygame.draw.rect(win, self.color, (self.x, self.y, self.width, self.height))
-        font = pygame.font.SysFont("verdana", 40)
+        font = pygame.font.SysFont("Verdana", 40)
         text = font.render(self.text, 1, (255,255,255))
         win.blit(text, (self.x + round(self.width/2) - round(text.get_width()/2), self.y + round(self.height/2) - round(text.get_height()/2)))
 
@@ -36,15 +38,15 @@ def redrawWindow(win, game, p):
     win.fill((128,128,128))
 
     if not(game.connected()):
-        font = pygame.font.SysFont("verdana", 80)
-        text = font.render("Aguardando um jogador...", 1, (255,0,0), True)
-        win.blit(text, (width/2 - text.get_width()/2, height/2 - text.get_height()/2))
+        font = pygame.font.SysFont("Verdana", 50)
+        text = font.render("Esperando por um jogador...", 1, (255,0,0), True)
+        win.blit(text, (width / 2 - text.get_width() / 2, height / 2 - text.get_height() / 2))
     else:
-        font = pygame.font.SysFont("verdana", 60)
+        font = pygame.font.SysFont("Verdana", 30)
         text = font.render("Sua vez", 1, (0, 255,255))
         win.blit(text, (80, 200))
 
-        text = font.render("Adversário", 1, (0, 255, 255))
+        text = font.render("Oponente", 1, (0, 255, 255))
         win.blit(text, (380, 200))
 
         move1 = game.get_player_move(0)
@@ -56,16 +58,16 @@ def redrawWindow(win, game, p):
             if game.p1Went and p == 0:
                 text1 = font.render(move1, 1, (0,0,0))
             elif game.p1Went:
-                text1 = font.render("Movimento feito", 1, (0, 0, 0))
+                text1 = font.render("Selecionado", 1, (0, 0, 0))
             else:
                 text1 = font.render("Esperando...", 1, (0, 0, 0))
 
             if game.p2Went and p == 1:
                 text2 = font.render(move2, 1, (0,0,0))
             elif game.p2Went:
-                text2 = font.render("Movimento feito", 1, (0, 0, 0))
+                text2 = font.render("Selecionado", 1, (0, 0, 0))
             else:
-                text2 = font.render("Aguardando...", 1, (0, 0, 0))
+                text2 = font.render("Esperando...", 1, (0, 0, 0))
 
         if p == 1:
             win.blit(text2, (100, 350))
@@ -74,12 +76,13 @@ def redrawWindow(win, game, p):
             win.blit(text1, (100, 350))
             win.blit(text2, (400, 350))
 
-        for button in buttons:
-            button.draw(win)
+        for btn in btns:
+            btn.draw(win)
 
     pygame.display.update()
 
-buttons = [Button("Pedra", 50, 500, (0, 0, 0)), Button("Papel", 250, 500, (255, 0, 0)), Button("Tesoura", 450, 500, (0, 255, 0))]
+
+btns = [Button("Pedra", 50, 500, (0,0,0)), Button("Tesoura", 250, 500, (255,0,0)), Button("Papel", 450, 500, (0,255,0))]
 
 
 def main():
@@ -87,7 +90,7 @@ def main():
     clock = pygame.time.Clock()
     n = Network()
     player = int(n.getP())
-    print("Você é o jogador:", player)
+    print("Você é o jogador", player)
 
     while run:
         clock.tick(60)
@@ -109,14 +112,14 @@ def main():
                 break
 
             font = pygame.font.SysFont("Verdana", 90)
-            if (game.winner() == 1 and player == 1) or (game.winner == 0 and player == 0):
-                text = font.render("Você ganhou!", 1, (255, 0, 0))
-            elif game.winner == -1:
-                text = font.render("Empate!", 1, (255, 0, 0))
+            if (game.winner() == 1 and player == 1) or (game.winner() == 0 and player == 0):
+                text = font.render("Você ganhou!", 1, (255,0,0))
+            elif game.winner() == -1:
+                text = font.render("Empate!", 1, (255,0,0))
             else:
                 text = font.render("Você perdeu...", 1, (255, 0, 0))
 
-            win.blit(text, (width / 2 - text.get_width() / 2, height / 2 - text.get_height() / 2))
+            win.blit(text, (width/2 - text.get_width()/2, height/2 - text.get_height()/2))
             pygame.display.update()
             pygame.time.delay(2000)
 
@@ -127,16 +130,38 @@ def main():
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
-                for button in buttons:
-                    if button.click(pos) and game.connected():
+                for btn in btns:
+                    if btn.click(pos) and game.connected():
                         if player == 0:
                             if not game.p1Went:
-                                n.send(button.text)
+                                n.send(btn.text)
                         else:
                             if not game.p2Went:
-                                n.send(button.text)
+                                n.send(btn.text)
 
         redrawWindow(win, game, player)
 
 
-main()
+def menu_screen():
+    run = True
+    clock = pygame.time.Clock()
+
+    while run:
+        clock.tick(60)
+        win.fill((128, 128, 128))
+        font = pygame.font.SysFont("Verdana", 48)
+        text = font.render("Clique para jogar!", 1, (255, 0, 0))
+        win.blit(text, (100, 200))
+        pygame.display.update()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                run = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                run = False
+
+    main()
+
+while True:
+    menu_screen()

@@ -1,5 +1,6 @@
-import pygame
 import random
+
+import pygame
 
 # Game logic: the ball is redrawn every tick (240 ticks per second). It is drawn based on its X (horizontal) and Y (vertical) parameters, which are updated every tick. Each tick, the ball is redrawn in a different position, giving the impression of movement. The parameters are changed based on the X and Y velocities. When the ball collides with a player, the X velocity is inverted, and the Y velocity is adjusted based on the player's position. If the player is in the middle, the ball will go straight; if in the corner, it will bounce at a 45-degree angle. If the player is in the middle and moving up, the ball will bounce at a 45-degree angle upwards; if moving down, it will bounce at a 45-degree angle downwards (illustrative angles). When the ball collides with the wall, the Y velocity is inverted. When the ball collides with the left or right wall, the score is changed, and the ball is reset to the middle of the screen. When the score reaches 5, the game ends, and the player with 5 points wins.
 # Note: It's worth mentioning that the screen is constantly redrawn. So if you draw a rectangle at position (0, 0) and then draw another rectangle at the same position, the first rectangle will be erased. Therefore, it's necessary to redraw the screen at all times.
