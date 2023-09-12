@@ -79,14 +79,14 @@ def redrawWindow(win, game, p):
 
     pygame.display.update()
 
-buttons = [Button("Pedra", 50, 400, (0, 0, 0)), Button("Papel", 250, 400, (255, 0, 0)), Button("Tesoura", 450, 400, (0, 255, 0))]
+buttons = [Button("Pedra", 50, 500, (0, 0, 0)), Button("Papel", 250, 500, (255, 0, 0)), Button("Tesoura", 450, 500, (0, 255, 0))]
 
 
 def main():
     run = True
     clock = pygame.time.Clock()
     n = Network()
-    player = n.getP()
+    player = int(n.getP())
     print("Você é o jogador:", player)
 
     while run:
