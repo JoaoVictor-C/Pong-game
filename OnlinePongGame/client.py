@@ -56,16 +56,16 @@ def redrawWindow(win, game, p):
             if game.p1Went and p == 0:
                 text1 = font.render(move1, 1, (0,0,0))
             elif game.p1Went:
-                text1 = font.render("Locked In", 1, (0, 0, 0))
+                text1 = font.render("Movimento feito", 1, (0, 0, 0))
             else:
-                text1 = font.render("Waiting...", 1, (0, 0, 0))
+                text1 = font.render("Esperando...", 1, (0, 0, 0))
 
             if game.p2Went and p == 1:
                 text2 = font.render(move2, 1, (0,0,0))
             elif game.p2Went:
-                text2 = font.render("Locked In", 1, (0, 0, 0))
+                text2 = font.render("Movimento feito", 1, (0, 0, 0))
             else:
-                text2 = font.render("Waiting...", 1, (0, 0, 0))
+                text2 = font.render("Aguardando...", 1, (0, 0, 0))
 
         if p == 1:
             win.blit(text2, (100, 350))
