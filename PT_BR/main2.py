@@ -41,8 +41,8 @@ class Ball:
             self.speed_y *= -1
 
     def playerCollisionResponse(self, player):
-        self.speed_x = min(3, -1.1 * self.speed_x)
-        self.speed_y = min(max((self.y - player.y - 50) / 50 + player.speed * 0.3, -1.25), 1.25)
+        self.speed_x = min(5, -1.1 * self.speed_x)
+        self.speed_y = min(max((self.y - player.y - 50) / 50 + player.speed * 0.3, -2), 2)
         if player.y == self.y - 50:
             self.speed_y = 0
 
@@ -107,10 +107,7 @@ class Player:
                 if self.y + random.randint(angulo_A, angulo_B) > ball.y and self.y > 0:
                     self.speed = -1.5
                     self.y += self.speed
-                    print(angulo_B)
                 elif self.y + random.randint(angulo_A, angulo_B) < ball.y and self.y < height - self.height:
-                    print(angulo_B)
-                    print(ball.y)
                     self.speed = 1.5
                     self.y += self.speed
         elif self.is_left:
